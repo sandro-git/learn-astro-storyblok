@@ -9,13 +9,10 @@ const env = loadEnv('', process.cwd(), 'STORYBLOK')
 export default defineConfig({
   integrations: [
     storyblok({
-      //accessToken: env.STORYBLOK_TOKEN,
-      accessToken: 'qpMp9rfOoSyHhQAM4doc9wtt',
+      accessToken: env.STORYBLOK_TOKEN,
+      bridge: env.STORYBLOK_IS_PREVIEW === 'yes',
       apiOptions: {
         region: '',
-      },
-      bridge: {
-        customParent: 'https://app.storyblok.com',
       },
       components: {
         page: 'storyblok/Page',
@@ -28,6 +25,7 @@ export default defineConfig({
         'all-articles': 'storyblok/AllArticles',
         article: 'storyblok/Article',
       },
+      output: env.STORYBLOK_IS_PREVIEW === 'yes' ? 'server' : 'static',
     }),
     tailwind(),
   ],
@@ -37,4 +35,5 @@ export default defineConfig({
       https: true,
     },
   },
+  adapter: vercel()
 })
